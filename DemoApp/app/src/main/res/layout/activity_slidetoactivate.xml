@@ -1,0 +1,30 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    android:background="@color/grey"
+    >
+
+    <com.droidupgrades.widget.control.SlideToActivateButton
+        android:id="@+id/slide_to_activate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/slideactivate_button_selector"
+
+        android:text="Slide to activate"
+        android:textStyle="normal"
+        android:textColor="@color/black"
+        android:textSize="@dimen/home_btn_ts"
+
+        android:layout_gravity="center"
+
+        android:layout_marginTop="50dip"
+        android:layout_marginBottom="30dip"
+        />
+
+
+
+</LinearLayout>
