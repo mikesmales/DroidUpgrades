@@ -83,6 +83,7 @@ public class SlideToActivateButton extends Button {
         if (dragging) {
             return calcBoundsDragging();
         } else {
+            currentX = 0;
             return new Rect(0, 0, thumbWidth, thumbHeight);
         }
     }
