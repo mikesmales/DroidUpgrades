@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewParent;
 import android.widget.Button;
 
+import com.droidupgrades.widget.helpers.TimerHandler;
 
 
 /**
@@ -18,11 +19,19 @@ import android.widget.Button;
  */
 public class SlideToActivateButton extends Button {
 
+    private final static int WAIT_TIME_MS = (int) (0.04 * 1000);
+    private final static int RETURN_SPEED = 50;
+
+    public enum State {
+        REST, DRAGGING, RETURNING
+    }
+
     private Context context;
     private Drawable thumbDrawable;
+    private TimerHandler timerHandler;
 
+    private State state = State.REST;
     private int viewWidth;
-    private boolean dragging = false;
     private float currentX = 0;
 
     private int thumbWidth;
@@ -80,9 +89,18 @@ public class SlideToActivateButton extends Button {
 
     private Rect calcBounds() {
 
-        if (dragging) {
+        if (state == State.REST) {
+            currentX = 0;
+            return new Rect(0, 0, thumbWidth, thumbHeight);
+        }
+        else if (state == State.DRAGGING) {
             return calcBoundsDragging();
-        } else {
+        }
+        else if (state == State.RETURNING) {
+
+            return calcBoundsDragging();
+        }
+        else {
             currentX = 0;
             return new Rect(0, 0, thumbWidth, thumbHeight);
         }
@@ -130,18 +148,19 @@ public class SlideToActivateButton extends Button {
 
             case MotionEvent.ACTION_DOWN:
 
-                dragging = true;
+                state = State.DRAGGING;
                 break;
 
             case MotionEvent.ACTION_MOVE:
 
-                if (dragging) {
+                if (state == State.DRAGGING) {
                     currentX = event.getX();
                 }
                 break;
 
             case MotionEvent.ACTION_UP:
-                dragging = false;
+                state = State.RETURNING;
+                returnToStart();
                 break;
         }
 
@@ -157,6 +176,35 @@ public class SlideToActivateButton extends Button {
         }
     }
 
+    private void returnToStart() {
+
+        if (timerHandler != null) {
+            timerHandler.stop();
+        }
+
+        timerHandler = new TimerHandler(timerTask);
+        timerHandler.sleep(WAIT_TIME_MS);
+    }
+
+    private Runnable timerTask = new Runnable() {
+
+        @Override
+        public void run() {
+
+            if (currentX == 0) {
+                state = State.REST;
+            }
+            else {
+                currentX = currentX - RETURN_SPEED;
+
+                if (currentX < 0) {
+                    currentX = 0;
+                }
+                invalidate();
+                timerHandler.sleep(WAIT_TIME_MS);
+            }
+        }
+    };
 
     private void extendTouchBounds() {
 
