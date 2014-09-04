@@ -1,13 +1,16 @@
 package com.droidupgrades.widget.control;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageButton;
 
+import com.droidupgrades.R;
 import com.droidupgrades.widget.helpers.TimerHandler;
 
 /**
@@ -40,13 +43,22 @@ public class HoldToLock extends ImageButton {
     }
 
     public HoldToLock(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        setup();
+        this(context, attrs, 0);
     }
 
     public HoldToLock(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        setAttributes(context, attrs, defStyle);
         setup();
+    }
+
+    private void setAttributes(Context context, AttributeSet attrs, int defStyle) {
+
+        final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.HoldToLock, defStyle, 0);
+
+        lockingBorderColor = attributes.getColor(R.styleable.HoldToLock_locking_color, Color.BLACK);
+        lockingBorderStrokeWidth = (int) attributes.getDimension(R.styleable.HoldToLock_locking_stroke_width, 10);
+        attributes.recycle();
     }
 
     private void setup() {
@@ -75,10 +87,10 @@ public class HoldToLock extends ImageButton {
 
         viewRadius = viewWidth * 0.5f;
 
-        float newRadius = viewRadius - getPaddingTop();
-        newRadius = newRadius + 10;
+        float lockingRadius = viewRadius - getPaddingTop();
+        lockingRadius = lockingRadius + lockingBorderStrokeWidth;
 
-        lockingCircleBounds.set(-newRadius, -newRadius, newRadius, newRadius);
+        lockingCircleBounds.set(-lockingRadius, -lockingRadius, lockingRadius, lockingRadius);
 
         translationOffsetX = viewRadius;
         translationOffsetY = viewRadius;
@@ -153,7 +165,7 @@ public class HoldToLock extends ImageButton {
                 invalidate();
                 return;
             }
-            lockingProgressRotation = lockingProgressRotation + 2;
+            lockingProgressRotation = lockingProgressRotation + 4;
 
             invalidate();
             timerHandler.sleep(UPDATE_INTERVAL_TIME_MS);
