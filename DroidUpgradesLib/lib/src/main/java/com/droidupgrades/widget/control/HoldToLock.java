@@ -140,6 +140,7 @@ public class HoldToLock extends ImageButton {
                     state = State.UNLOCKED;
                     setPressed(false);
                     lockingProgressRotation = 0;
+                    timerHandler.stop();
                 }
                 break;
         }
@@ -173,5 +174,12 @@ public class HoldToLock extends ImageButton {
 
         }
     };
+
+    public void reset() {
+        state = State.UNLOCKED;
+        setPressed(false);
+        lockingProgressRotation = 0;
+        timerHandler.stop();
+    }
 
 }
