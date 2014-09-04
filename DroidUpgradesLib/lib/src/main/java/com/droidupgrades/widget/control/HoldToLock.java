@@ -127,6 +127,7 @@ public class HoldToLock extends ImageButton {
             case MotionEvent.ACTION_DOWN:
 
                 state = State.LOCKING;
+                setPressed(true);
                 startLockingTimer();
                 break;
 
@@ -137,6 +138,7 @@ public class HoldToLock extends ImageButton {
                 }
                 else {
                     state = State.UNLOCKED;
+                    setPressed(false);
                     lockingProgressRotation = 0;
                 }
                 break;
@@ -161,11 +163,10 @@ public class HoldToLock extends ImageButton {
 
                 state = State.LOCKED;
                 performClick();
-                setPressed(true);
                 invalidate();
                 return;
             }
-            lockingProgressRotation = lockingProgressRotation + 4;
+            lockingProgressRotation = lockingProgressRotation + 6;
 
             invalidate();
             timerHandler.sleep(UPDATE_INTERVAL_TIME_MS);
