@@ -37,6 +37,14 @@
             android:theme="@style/Theme.AppCompat"
             >
         </activity>
+
+        <activity
+            android:name="HoldToLockActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat"
+            >
+        </activity>
     </application>
 
 </manifest>

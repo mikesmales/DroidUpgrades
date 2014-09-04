@@ -42,4 +42,18 @@
         android:layout_marginTop="20dip"
         />
 
+    <Button
+        android:id="@+id/btn_holdToLock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="HoldToLock"
+        android:textStyle="normal"
+        android:textColor="@color/black"
+        android:textSize="@dimen/home_btn_ts"
+
+        android:layout_gravity="center"
+        android:layout_marginTop="20dip"
+        />
+
 </LinearLayout>

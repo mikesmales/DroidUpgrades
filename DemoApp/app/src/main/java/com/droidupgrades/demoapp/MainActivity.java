@@ -14,13 +14,14 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Button percentBarBtn = (Button) findViewById(R.id.btn_percentBar);
         percentBarBtn.setOnClickListener(onPercentBarClick);
 
         Button slideToActivateBtn = (Button) findViewById(R.id.btn_slideToActivate);
         slideToActivateBtn.setOnClickListener(onSlideToActivateClick);
 
+        Button holdToLockBtn = (Button) findViewById(R.id.btn_holdToLock);
+        holdToLockBtn.setOnClickListener(onHoldToLockClick);
     }
 
     private void showPercentBarActivity() {
@@ -33,7 +34,10 @@ public class MainActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-
+    private void showHoldToLockActivity() {
+        Intent intent = new Intent(this, HoldToLockActivity.class);
+        startActivity(intent);
+    }
 
     private View.OnClickListener onPercentBarClick = new View.OnClickListener() {
 
@@ -46,6 +50,13 @@ public class MainActivity extends ActionBarActivity {
 
         public void onClick(View v) {
             showSlideToActivateActivity();
+        }
+    };
+
+    private View.OnClickListener onHoldToLockClick = new View.OnClickListener() {
+
+        public void onClick(View v) {
+            showHoldToLockActivity();
         }
     };
 }
